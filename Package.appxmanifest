@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="0048de70-78d6-4b03-bbda-a26398008601" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>ModernInstaller</DisplayName>
+    <DisplayName>App Installer</DisplayName>
     <PublisherDisplayName>Riverside Valley Corporation</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
