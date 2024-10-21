@@ -42,6 +42,23 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="app">
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="application/msixbundle">.msixbundle</uap:FileType>
+              <uap:FileType ContentType="application/appinstaller">.appinstaller</uap:FileType>
+              <uap:FileType ContentType="application/appxbundle">.appxbundle</uap:FileType>
+              <uap:FileType ContentType="application/appx">.appx</uap:FileType>
+              <uap:FileType ContentType="application/msix">.msix</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:EditFlags OpenIsSafe="true"/>
+            <uap:DisplayName>App Installer</uap:DisplayName>
+            <uap:Logo>Assets\StoreLogo.png</uap:Logo>
+            <uap:InfoTip>Application Installer File</uap:InfoTip>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
 
