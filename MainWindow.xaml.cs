@@ -1,36 +1,65 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using WinUIEx;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace ModernInstaller
+namespace ModernInstaller;
+public sealed partial class MainWindow : Window
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            this.InitializeComponent();
-        }
+    private AppWindow _apw = null!;
+    private OverlappedPresenter _presenter = null!;
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+    public void GetAppWindowAndPresenter()
+    {
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        WindowId wndId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+        _apw = AppWindow.GetFromWindowId(wndId);
+        _presenter = _apw.Presenter as OverlappedPresenter ?? throw new InvalidOperationException("Presenter is not of type OverlappedPresenter");
+    }
+
+    public MainWindow()
+    {
+        this.InitializeComponent();
+
+        GetAppWindowAndPresenter();
+        _presenter.IsMaximizable = false;
+        _presenter.IsMinimizable = false;
+        this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(328, 198, 328, 198));
+        this.SetIsMinimizable(false);
+        this.SetIsMaximizable(false);
+        this.SetIsResizable(false);
+        this.SetIsAlwaysOnTop(true);
+
+        Window window = this;
+        window.ExtendsContentIntoTitleBar = true; // Enable custom titlebar
+        window.SetTitleBar(AppTitleBar); // Set titlebar as <Border /> from MainWindow.xaml
+    }
+
+    private async void RootGrid_Loaded(object sender, RoutedEventArgs e)
+    {
+        await ShowDialog();
+    }
+
+    public async Task ShowDialog()
+    {
+        var dialog = new ContentDialog()
         {
-            myButton.Content = "Clicked";
-        }
+            XamlRoot = RootGrid.XamlRoot,
+            Title = "Error",
+            Content = "A fatal runtime error occured.",
+            CloseButtonText = "OK"
+        };
+
+        dialog.Closed += Dialog_Closed;
+
+        await dialog.ShowAsync();
+    }
+
+    private void Dialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        Application.Current.Exit();
     }
 }
