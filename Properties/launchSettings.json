@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ModernInstaller (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ModernInstaller (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
