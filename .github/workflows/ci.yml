@@ -3,10 +3,11 @@ on: [push]
 
 jobs:
   build_and_test:
+    name: Build App
     runs-on: windows-latest
     steps:
       - name: Run CI Action
-        uses: Lamparter/Build-WinAppSdk@latest
+        uses: Lamparter/Build-WinAppSdk@v1.0.0
         with:
           project-path: './ModernInstaller.csproj'
           timeout: 15
